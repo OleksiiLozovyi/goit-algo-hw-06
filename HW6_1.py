@@ -16,7 +16,7 @@ class Name(Field):
 class Phone(Field):
     def __init__(self, value):
         if len(value) < 10:
-            print(f'Number must be longer then 10 digits')
+            raise ValueError('Number must be longer then 10 digits')
         super().__init__(value)
 
 
@@ -35,13 +35,15 @@ class Record:
         phone_to_remove = self.find_phone(phone)
         if phone_to_remove:
             self.phones.remove(phone_to_remove)
+
     def edit_phone(self, old_phone, new_phone):
         phone_to_edit = self.find_phone(old_phone)
         if phone_to_edit:
-            self.remove_phone(old_phone)
             self.add_phone(new_phone)
+            self.remove_phone(old_phone)
         else:
             raise ValueError(f"Phone number {old_phone} not found")
+
     def find_phone(self, phone):
         for ph in self.phones:
             if ph.value == phone:
