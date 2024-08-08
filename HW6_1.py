@@ -1,4 +1,7 @@
 from collections import UserDict
+import re
+
+
 
 class Field:
     def __init__(self, value):
@@ -15,10 +18,11 @@ class Name(Field):
 
 class Phone(Field):
     def __init__(self, value):
-        if len(value) < 10:
-            raise ValueError('Number must be longer then 10 digits')
+        if not self.validate_phone(value):
+            raise ValueError("Phone number must be 10 digits")
         super().__init__(value)
-
+    def validate_phone(self, value):
+        return value.isdigit() and len(value) == 10
 
 class Record:
     def __init__(self, name):
